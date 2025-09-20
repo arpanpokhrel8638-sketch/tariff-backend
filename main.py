@@ -3,16 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Allow frontend to talk to backend
+# Allow frontend to access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows any frontend URL, good for testing
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 @app.get("/tariff")
 def get_tariff(hs_code: str, country: str):
     mock_data = {
@@ -21,4 +19,3 @@ def get_tariff(hs_code: str, country: str):
     }
     result = mock_data.get(hs_code, {}).get(country, "No data available")
     return {"hs_code": hs_code, "country": country, "tariff": result}
-
