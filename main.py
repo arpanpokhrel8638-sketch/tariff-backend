@@ -3,19 +3,21 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Allow frontend to access
+# Allow your frontend to call this backend
+origins = ["*"]  # for testing; later you can restrict to your frontend URL
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.get("/tariff")
 def get_tariff(hs_code: str, country: str):
-    mock_data = {
-        "1006": {"India": "5% duty", "USA": "2% duty"},
-        "0901": {"India": "10% duty", "USA": "0% duty"},
+    # This is a placeholder. Replace with real tariff data logic later
+    return {
+        "hs_code": hs_code,
+        "country": country,
+        "tariff": "5% duty"
     }
-    result = mock_data.get(hs_code, {}).get(country, "No data available")
-    return {"hs_code": hs_code, "country": country, "tariff": result}
